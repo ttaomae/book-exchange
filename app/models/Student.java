@@ -3,24 +3,32 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
 public class Student extends Model {
   private static final long serialVersionUID = -1729390609083717186L;
   @Id
-  public Long id;
-  public String name;
-  public String email;
+  private Long primaryKey;
+  @Column(nullable=false)
+  @Required
+  private String studentId;
+  @Required
+  private String name;
+  @Required
+  private String email;
   @OneToMany(mappedBy="student", cascade=CascadeType.ALL)
-  public List<Request> requests = new ArrayList<>();
+  private List<Request> requests = new ArrayList<>();
   @OneToMany(mappedBy="student", cascade=CascadeType.ALL)
-  public List<Offer> offers = new ArrayList<>();
+  private List<Offer> offers = new ArrayList<>();
 
-  public Student(String name, String email) {
+  public Student(String studentId, String name, String email) {
+    this.studentId = studentId;
     this.name = name;
     this.email = email;
   }
@@ -43,5 +51,58 @@ public class Student extends Model {
 
   public static Finder<Long, Student> find() {
     return new Finder<Long, Student>(Long.class, Student.class);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("[Student %s %s %s]", this.studentId, this.name, this.email);
+  }
+
+  public Long getPrimaryKey() {
+    return primaryKey;
+  }
+
+  public void setPrimaryKey(Long primaryKey) {
+    this.primaryKey = primaryKey;
+  }
+
+  public String getStudentId() {
+    return studentId;
+  }
+
+  public void setStudentId(String studentId) {
+    this.studentId = studentId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public List<Request> getRequests() {
+    return requests;
+  }
+
+  public void setRequests(List<Request> requests) {
+    this.requests = requests;
+  }
+
+  public List<Offer> getOffers() {
+    return offers;
+  }
+
+  public void setOffers(List<Offer> offers) {
+    this.offers = offers;
   }
 }
