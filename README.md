@@ -1,4 +1,4 @@
-#Warehouse
+#Book Exchange
 This is a Play application which provides a textbook exchange for a local community (e.g. students of a University, rather than random online users).
 
 ##Data Model
