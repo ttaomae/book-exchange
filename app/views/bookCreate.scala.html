@@ -12,16 +12,7 @@
         @inputText(bookForm("bookId"), '_label -> "ID")
         @inputText(bookForm("title"), '_label -> "Title")
         @inputText(bookForm("edition"), '_label -> "Edition")
-        <div class="control-group">
-          <label class="control-label" for="price">Bookstore Price</label>
-          <div class="controls">
-            <div class="input-prepend input-append">
-              <span class="add-on">$</span>
-              <input class="input-medium" id="price" name="price" type="text">
-              <span class="add-on">.00</span> 
-            </div>
-          </div>
-        </div>
+        @inputText(bookForm("price"), '_label -> "Bookstore Price")
         @inputText(bookForm("isbn"), '_label -> "ISBN")
         
         <div class="control-group">
