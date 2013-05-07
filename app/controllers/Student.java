@@ -5,37 +5,49 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.*;
 
 public class Student extends Controller {
   public static Result index() {
     List<models.Student> students = models.Student.find().findList();
-    return ok(students.isEmpty() ? "No students" : students.toString());
+    return ok(studentList.render(students));
   }
 
-  public static Result details(String studentId) {
-    models.Student student = models.Student.find().where().eq("studentId", studentId).findUnique();
-    return (student == null) ? notFound("No student found") : ok(student.toString());
+  public static Result create() {
+    models.Student defaults = new models.Student("Student-01", "StudentName", "StudentEmail");
+    Form<models.Student> studentForm = form(models.Student.class).fill(defaults);
+    return ok(studentCreate.render(studentForm));
   }
 
-  public static Result newStudent() {
-    // Create a Student form and bind the request variables to it.
+  public static Result save() {
     Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
-    // Validate the form values.
     if (studentForm.hasErrors()) {
-      return badRequest("Student ID, name, and email requred");
+      return badRequest(studentCreate.render(studentForm));
     }
 
-    // form is OK, so make a Student and save it.
     models.Student student = studentForm.get();
     student.save();
-    return ok(student.toString());
+    return redirect(routes.Application.index());
   }
 
-  public static Result delete(String studentId) {
-    models.Student student = models.Student.find().where().eq("studentId", studentId).findUnique();
-    if (student != null) {
-      student.delete();
+  public static Result edit(Long primaryKey) {
+    models.Student student= models.Student.find().byId(primaryKey);
+    Form<models.Student> studentForm = form(models.Student.class).fill(student);
+    return ok(studentEdit.render(primaryKey, studentForm));
+  }
+
+  public static Result update(Long primaryKey) {
+    Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
+    if (studentForm.hasErrors()) {
+      return badRequest(studentEdit.render(primaryKey, studentForm));
     }
-    return ok();
+
+    studentForm.get().update(primaryKey);
+    return redirect(routes.Application.index());
+  }
+  
+  public static Result delete(Long primaryKey) {
+    models.Student.find().byId(primaryKey).delete();
+    return redirect(routes.Application.index());
   }
 }

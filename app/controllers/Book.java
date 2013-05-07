@@ -9,11 +9,6 @@ import views.html.*;
 
 public class Book extends Controller {
 
-  /**
-   * Displays a list of all available books.
-   *
-   * @return
-   */
   public static Result index() {
     List<models.Book> books = models.Book.find().findList();
     return ok(bookList.render(books));

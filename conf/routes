@@ -3,24 +3,35 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                               controllers.Application.index()
 
-GET     /students                   controllers.Student.index()
-GET     /students/:studentId        controllers.Student.details(studentId: String)
-POST    /students                   controllers.Student.newStudent()
-DELETE  /students/:studentId        controllers.Student.delete(studentId:String)
+
+# Student operations
+# List students
+GET     /students                       controllers.Student.index()
+# New student
+GET     /students/create                controllers.Student.create()
+POST    /students                       controllers.Student.save()
+# Edit existing student
+GET     /students/:primaryKey           controllers.Student.edit(primaryKey: Long)
+POST    /students/:primaryKey           controllers.Student.update(primaryKey: Long)
+# Delete student
+GET     /students/:primaryKey/delete    controllers.Student.delete(primaryKey: Long)
+
 
 # Book operations
 # List books
-GET     /books                      controllers.Book.index()
+GET     /books                          controllers.Book.index()
 # New book
-GET     /books/create               controllers.Book.create()
-POST    /books                      controllers.Book.save()
+GET     /books/create                   controllers.Book.create()
+POST    /books                          controllers.Book.save()
 # Edit existing book
-GET     /books/:primaryKey          controllers.Book.edit(primaryKey: Long)
-POST    /books/:primaryKey          controllers.Book.update(primaryKey: Long)
+GET     /books/:primaryKey              controllers.Book.edit(primaryKey: Long)
+POST    /books/:primaryKey              controllers.Book.update(primaryKey: Long)
 # Delete book
-GET  /books/:primaryKey/delete      controllers.Book.delete(primaryKey: Long)
+GET     /books/:primaryKey/delete       controllers.Book.delete(primaryKey: Long)
+
+
 
 GET     /requests                   controllers.Request.index()
 GET     /requests/:requestId        controllers.Request.details(requestId: String)
