@@ -1,0 +1,40 @@
+@(books : List[models.Book])
+
+@main("Student Book Exchange | Find Books") {
+<div class="container">
+  <div class="page-header">
+    <h1>Available Books</h1>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Edition</th>
+            <th>Bookstore Price</th>
+            <th>Offers</th>
+            <th>Requests</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(book <- books) {
+            <tr>
+              <td>@book.getIsbn()</td>
+              <td><a href="@routes.Book.edit(book.getPrimaryKey)">@book.getTitle</a></td>
+              <td>@book.getEdition</td>
+              <td>@book.getPrice</td>
+              <td>@if(book.getOffers().isEmpty()) {X} else {O} </td>
+              <td>@if(book.getRequests().isEmpty()) {X} else {O} </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <a href="@routes.Book.create()" class="btn btn-block btn-success">Add Book</a>
+  </div>
+</div>
+}
