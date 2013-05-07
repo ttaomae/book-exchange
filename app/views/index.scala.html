@@ -1,7 +1,32 @@
-@(message: String)
-
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+@main("Student Book Exchange | Homepage") {
+  <div class="container">
+    <div class="page-header">
+      <h1>Welcome to the Student Book Exchange</h1>
+    </div>
+    <div class="row">
+      <div class="span8 offset2">
+        <div class="well">
+          <h3>Save money by exchanging books with your fellow students instead of paying outrageous book store prices!</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span6">
+        <div class="well">
+          <h4>Browse Books</h4>
+          <p>View books and their available offers and requests.</p>
+          <a class="btn btn-primary" href="@routes.Book.index()">Find Books!</a> 
+        </div>
+      </div>
+      <div class="span6">
+        <div class="well">
+          <h4>Make Offers/Requests
+          </h4>
+          <p>Create an account and make your own offers and requests.</p>
+          <a class="btn btn-info">Sign up</a> or
+          <a class="btn btn-primary">Log in</a> 
+        </div>
+      </div>
+    </div>
+  </div>
 }
