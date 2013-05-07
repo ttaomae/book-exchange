@@ -10,10 +10,17 @@ GET     /students/:studentId        controllers.Student.details(studentId: Strin
 POST    /students                   controllers.Student.newStudent()
 DELETE  /students/:studentId        controllers.Student.delete(studentId:String)
 
+# Book operations
+# List books
 GET     /books                      controllers.Book.index()
-GET     /books/:bookId              controllers.Book.details(bookId: String)
-POST    /books                      controllers.Book.newBook()
-DELETE  /books/:bookId              controllers.Book.delete(bookId: String)
+# New book
+GET     /books/create               controllers.Book.create()
+POST    /books                      controllers.Book.save()
+# Edit existing book
+GET     /books/:primaryKey          controllers.Book.edit(primaryKey: Long)
+POST    /books/:primaryKey          controllers.Book.update(primaryKey: Long)
+# Delete book
+GET  /books/:primaryKey/delete      controllers.Book.delete(primaryKey: Long)
 
 GET     /requests                   controllers.Request.index()
 GET     /requests/:requestId        controllers.Request.details(requestId: String)

@@ -5,38 +5,55 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.*;
 
 public class Book extends Controller {
 
+  /**
+   * Displays a list of all available books.
+   *
+   * @return
+   */
   public static Result index() {
     List<models.Book> books = models.Book.find().findList();
-    return ok(books.isEmpty() ? "No books" : books.toString());
+    return ok(bookList.render(books));
   }
 
-  public static Result details(String bookId) {
-    models.Book book = models.Book.find().where().eq("bookId", bookId).findUnique();
-    return (book == null) ? notFound("No book found") : ok(book.toString());
+  public static Result create() {
+    models.Book defaults = new models.Book("Book-01", "BookTitle", 1234567890L, 30);
+    Form<models.Book> bookForm = form(models.Book.class).fill(defaults);
+    return ok(bookCreate.render(bookForm));
   }
 
-  public static Result newBook() {
-    // Create a Book form and bind the request variables to it.
+  public static Result save() {
     Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
-    // Validate the form values.
     if (bookForm.hasErrors()) {
-      return badRequest("Book ID, title, and ISBN required");
+      return badRequest(bookCreate.render(bookForm));
     }
 
-    // form is OK, so make a Book and save it.
     models.Book book = bookForm.get();
     book.save();
-    return ok(book.toString());
+    return redirect(routes.Application.index());
   }
 
-  public static Result delete(String bookId) {
-    models.Book book = models.Book.find().where().eq("bookId", bookId).findUnique();
-    if (book != null) {
-      book.delete();
+  public static Result edit(Long primaryKey) {
+    models.Book book = models.Book.find().byId(primaryKey);
+    Form<models.Book> bookForm = form(models.Book.class).fill(book);
+    return ok(bookEdit.render(primaryKey, bookForm));
+  }
+
+  public static Result update(Long primaryKey) {
+    Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
+    if (bookForm.hasErrors()) {
+      return badRequest(bookEdit.render(primaryKey, bookForm));
     }
-    return ok();
+
+    bookForm.get().update(primaryKey);
+    return redirect(routes.Application.index());
+  }
+
+  public static Result delete(Long primaryKey) {
+    models.Book.find().byId(primaryKey).delete();
+    return redirect(routes.Application.index());
   }
 }
