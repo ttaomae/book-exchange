@@ -4,7 +4,9 @@
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
 
 @main("Student Book Exchange | Create Book") {
-  <div class="container">
+<div class="container">
+  <h1>Edit Book</h1>
+  <div class="span6">
     <div class="well">
       <h3>Update Book</h3>
       @form(routes.Book.update(primaryKey), 'class -> "form-horizontal") {
@@ -24,4 +26,5 @@
       }
     </div>
   </div>
+</div>
 }
