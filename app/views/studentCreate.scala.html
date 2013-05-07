@@ -1,0 +1,25 @@
+@(studentForm: Form[models.Student])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Student Book Exchange | Create Book") {
+<div class="container">
+  <h1>Create Book</h1>
+  <div class="span6">
+    <div class="well">
+      @form(routes.Student.save(), 'class -> "form-horizontal") {
+        @inputText(studentForm("studentId"), '_label -> "ID")
+        @inputText(studentForm("name"), '_label -> "Name")
+        @inputText(studentForm("email"), '_label -> "Email")
+        <div class="control-group">
+          <div class="controls">
+            <input id="create" type="submit" value="Create" class="btn btn-primary">
+            <a href="@routes.Application.index()" class="btn">Cancel</a>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+}
