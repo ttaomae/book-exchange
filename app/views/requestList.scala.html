@@ -1,0 +1,35 @@
+@(requests : List[models.Request])
+
+@main("Student Book Exchange | Find Requests") {
+<div class="container">
+  <div class="page-header">
+    <h1>Available Requests</h1>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Book</th>
+            <th>Target Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(request <- requests) {
+            <tr>
+              <td><a href="@routes.Student.edit(request.getStudent().getPrimaryKey())">@request.getStudent().getName()</a></td>
+              <td><a href="@routes.Book.edit(request.getBook().getPrimaryKey())">@request.getBook().getTitle()</a></td>
+              <td>@request.getTargetPrice()</td>
+              <td><a href="@routes.Request.edit(request.getPrimaryKey())">Edit</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <a href="@routes.Request.create()" class="btn btn-block btn-success">Add Request</a>
+  </div>
+</div>
+}
