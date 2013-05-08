@@ -10,14 +10,14 @@
     <div class="well">
       @form(routes.Offer.save(), 'class -> "form-horizontal") {
         @inputText(offerForm("offerId"), '_label -> "ID")
-        @select(offerForm("studentName"), options = options(models.Student.getNames()), '_default -> "Choose a student", '_label -> "Student")
-        @select(offerForm("bookTitle"), options = options(models.Book.getTitles()), '_default -> "Choose a book", '_label -> "Book")
+        @select(offerForm("studentId"), options = options(models.Student.getStudentIds()), '_default -> "Choose a student", '_label -> "Student")
+        @select(offerForm("bookId"), options = options(models.Book.getBookIds()), '_default -> "Choose a book", '_label -> "Book")
         @inputText(offerForm("targetPrice"), '_label -> "Target Price")
         
         <div class="control-group">
           <div class="controls">
             <input id="create" type="submit" value="Create" class="btn btn-primary">
-            <a href="@routes.Application.index()" class="btn">Cancel</a>
+            <a href="@routes.Offer.index()" class="btn">Cancel</a>
           </div>
         </div>
       }
