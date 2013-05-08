@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -18,11 +19,15 @@ public class Offer extends Model {
   @Required
   private String offerId;
 
-  @Required
+  @Transient
+  public String studentName;
+//  @Required
   @ManyToOne(cascade = CascadeType.PERSIST)
   private Student student;
 
-  @Required
+  @Transient
+  public String bookTitle;
+//  @Required
   @ManyToOne(cascade = CascadeType.PERSIST)
   private Book book;
 
@@ -30,6 +35,11 @@ public class Offer extends Model {
 
   @Required
   private int targetPrice;
+
+  public Offer(String offerId, int targetPrice) {
+    this.offerId = offerId;
+    this.targetPrice = targetPrice;
+  }
 
   public Offer(String offerId, Student student, Book book, int targetPrice) {
     this.offerId = offerId;
@@ -80,12 +90,28 @@ public class Offer extends Model {
     this.offerId = offerId;
   }
 
+  public String getStudentName() {
+    return this.studentName;
+  }
+
+  public void setStudentName(String studentName) {
+    this.studentName = studentName;
+  }
+
   public Student getStudent() {
     return student;
   }
 
   public void setStudent(Student student) {
     this.student = student;
+  }
+
+  public String getBookTitle() {
+    return this.bookTitle;
+  }
+
+  public void setBookTitle(String bookTitle) {
+    this.bookTitle = bookTitle;
   }
 
   public Book getBook() {
@@ -110,5 +136,23 @@ public class Offer extends Model {
 
   public void setTargetPrice(int targetPrice) {
     this.targetPrice = targetPrice;
+  }
+
+  public String validate() {
+    if (this.studentName != null) {
+      this.student = Student.find().where().eq("name", this.studentName).findUnique();
+      if (this.student == null) {
+        return "Could not find the student named: " + this.studentName;
+      }
+    }
+
+    if (this.bookTitle != null) {
+      this.book = Book.find().where().eq("title", this.bookTitle).findUnique();
+      if (this.book == null) {
+        return "Could not find book named: " + this.bookTitle;
+      }
+    }
+
+    return null;
   }
 }
