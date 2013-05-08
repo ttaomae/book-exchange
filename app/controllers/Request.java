@@ -5,40 +5,51 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.*;
 
 public class Request extends Controller {
+
   public static Result index() {
     List<models.Request> requests = models.Request.find().findList();
-    return ok(requests.isEmpty() ? "No requests" : requests.toString());
+    return ok(requestList.render(requests));
   }
 
-  public static Result details(String requestId) {
-    models.Request request = models.Request.find().where().eq("requestId", requestId).findUnique();
-    return (request == null) ? notFound("No request found") : ok(request.toString());
+  public static Result create() {
+    models.Request defaults = new models.Request("Request-01", 30);
+    Form<models.Request> requestForm = form(models.Request.class).fill(defaults);
+    return ok(requestCreate.render(requestForm));
   }
 
-  public static Result newRequest() {
-    // Create a Request form and bind the request variables to it.
-    Form<models.Request> requestForm = form(models.Request.class);
-    requestForm = requestForm.bindFromRequest();
-    // Validate the form values.
+  public static Result save() {
+    Form<models.Request> requestForm = form(models.Request.class).bindFromRequest();
     if (requestForm.hasErrors()) {
-      System.err.println("!!ERROR!! " + requestForm.errors().toString());
-      return badRequest("Request ID, student, and book required");
+      System.err.println("DEBUG: bad reqeust" + requestForm.errors());
+      return badRequest(requestCreate.render(requestForm));
     }
 
-    // form is OK, so make a Request and save it.
     models.Request request = requestForm.get();
     request.save();
-    return ok(request.toString());
+    return redirect(routes.Application.index());
   }
 
-  public static Result delete(String requestId) {
-    models.Request request = models.Request.find().where().eq("requestId", requestId).findUnique();
-    if (request != null) {
-      request.delete();
+  public static Result edit(Long primaryKey) {
+    models.Request request = models.Request.find().byId(primaryKey);
+    Form<models.Request> requestForm = form(models.Request.class).fill(request);
+    return ok(requestEdit.render(primaryKey, requestForm));
+  }
+  
+  public static Result update(Long primaryKey) {
+    Form<models.Request> requestForm = form(models.Request.class).bindFromRequest();
+    if (requestForm.hasErrors()) {
+      return badRequest(requestEdit.render(primaryKey, requestForm));
     }
 
-    return ok();
+    requestForm.get().update(primaryKey);
+    return redirect(routes.Application.index());
+  }
+
+  public static Result delete(Long primaryKey) {
+    models.Request.find().byId(primaryKey).delete();
+    return redirect(routes.Application.index());
   }
 }

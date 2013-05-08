@@ -32,11 +32,18 @@ POST    /books/:primaryKey              controllers.Book.update(primaryKey: Long
 GET     /books/:primaryKey/delete       controllers.Book.delete(primaryKey: Long)
 
 
+# Request operations
+# List requests
+GET     /requests                       controllers.Request.index()
+# New request
+GET     /requests/create                controllers.Request.create()
+POST    /requests                       controllers.Request.save()
+# Edit existing request
+GET     /requests/:primaryKey           controllers.Request.edit(primaryKey: Long)
+POST    /requests/:primaryKey           controllers.Request.update(primaryKey: Long)
+# Delete book
+GET     /requests/:primaryKey/delete    controllers.Request.delete(primaryKey: Long)
 
-GET     /requests                   controllers.Request.index()
-GET     /requests/:requestId        controllers.Request.details(requestId: String)
-POST    /requests                   controllers.Request.newRequest()
-DELETE  /requests/:requestId        controllers.Request.delete(requestId: String)
 
 GET     /offers                     controllers.Offer.index()
 GET     /offers/:offerId            controllers.Offer.details(offerId: String)
