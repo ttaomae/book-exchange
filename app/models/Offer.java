@@ -20,13 +20,13 @@ public class Offer extends Model {
   private String offerId;
 
   @Transient
-  public String studentName;
+  public String studentId;
 //  @Required
   @ManyToOne(cascade = CascadeType.PERSIST)
   private Student student;
 
   @Transient
-  public String bookTitle;
+  public String bookId;
 //  @Required
   @ManyToOne(cascade = CascadeType.PERSIST)
   private Book book;
@@ -90,12 +90,12 @@ public class Offer extends Model {
     this.offerId = offerId;
   }
 
-  public String getStudentName() {
-    return this.studentName;
+  public String getStudentId() {
+    return this.studentId;
   }
 
-  public void setStudentName(String studentName) {
-    this.studentName = studentName;
+  public void setStudentId(String studentId) {
+    this.studentId = studentId;
   }
 
   public Student getStudent() {
@@ -106,12 +106,12 @@ public class Offer extends Model {
     this.student = student;
   }
 
-  public String getBookTitle() {
-    return this.bookTitle;
+  public String getBookId() {
+    return this.bookId;
   }
 
-  public void setBookTitle(String bookTitle) {
-    this.bookTitle = bookTitle;
+  public void setBookId(String bookid) {
+    this.bookId = bookid;
   }
 
   public Book getBook() {
@@ -139,17 +139,17 @@ public class Offer extends Model {
   }
 
   public String validate() {
-    if (this.studentName != null) {
-      this.student = Student.find().where().eq("name", this.studentName).findUnique();
+    if (this.studentId != null) {
+      this.student = Student.find().where().eq("studentId", this.studentId).findUnique();
       if (this.student == null) {
-        return "Could not find the student named: " + this.studentName;
+        return "Could not find the student with ID: " + this.studentId;
       }
     }
 
-    if (this.bookTitle != null) {
-      this.book = Book.find().where().eq("title", this.bookTitle).findUnique();
+    if (this.bookId != null) {
+      this.book = Book.find().where().eq("bookId", this.bookId).findUnique();
       if (this.book == null) {
-        return "Could not find book named: " + this.bookTitle;
+        return "Could not find the book with ID: " + this.bookId;
       }
     }
 

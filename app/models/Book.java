@@ -130,20 +130,12 @@ public class Book extends Model {
     this.offers = offers;
   }
 
-  public static List<String> getTitles() {
-    List<String> bookTitles = new ArrayList<>();
+  public static List<String> getBookIds() {
+    List<String> books = new ArrayList<>();
     for (Book book : Book.find().all()) {
-      bookTitles.add(book.getTitle());
+      books.add(book.getBookId());
     }
 
-    return bookTitles;
-  }
-
-  public String validate() {
-    if (Book.find().where().eq("title", this.title).findUnique() != null) {
-      return "Found existing book with title: " + this.title;
-    }
-
-    return null;
+    return books;
   }
 }

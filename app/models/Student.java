@@ -15,7 +15,7 @@ public class Student extends Model {
   private static final long serialVersionUID = -1729390609083717186L;
   @Id
   private Long primaryKey;
-  @Column(nullable=false)
+  @Column(nullable=false, unique=true)
   @Required
   private String studentId;
   @Required
@@ -106,20 +106,12 @@ public class Student extends Model {
     this.offers = offers;
   }
 
-  public static List<String> getNames() {
-    List<String> studentNames = new ArrayList<>();
+  public static List<String> getStudentIds() {
+    List<String> students = new ArrayList<>();
     for (Student student : Student.find().all()) {
-      studentNames.add(student.getName());
+      students.add(student.getStudentId());
     }
 
-    return studentNames;
-  }
-
-  public String validate() {
-    if (Student.find().where().eq("name", this.name).findUnique() != null) {
-      return "Found existing student with name: " + this.name;
-    }
-
-    return null;
+    return students;
   }
 }
