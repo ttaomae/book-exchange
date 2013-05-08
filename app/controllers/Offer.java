@@ -5,7 +5,9 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.*;
+import views.html.offerCreate;
+import views.html.offerEdit;
+import views.html.offerList;
 
 public class Offer extends Controller {
 
@@ -23,12 +25,21 @@ public class Offer extends Controller {
   public static Result save() {
     Form<models.Offer> offerForm = form(models.Offer.class).bindFromRequest();
     if (offerForm.hasErrors()) {
+      System.err.println("DEBUG: " + offerForm.errors());
       return badRequest(offerCreate.render(offerForm));
     }
 
     models.Offer offer = offerForm.get();
+    String offerId = offer.getOfferId();
+
+    // if offer with offerId is in database
+    if (!models.Offer.find().where().eq("offerId", offerId).findList().isEmpty()) {
+      System.err.println("DEBUG: found existing offer with ID: " + offerId);
+      return badRequest(offerCreate.render(offerForm));
+    }
+
     offer.save();
-    return redirect(routes.Application.index());
+    return redirect(routes.Offer.index());
   }
 
   public static Result edit(Long primaryKey) {
@@ -36,19 +47,20 @@ public class Offer extends Controller {
     Form<models.Offer> offerForm = form(models.Offer.class).fill(offer);
     return ok(offerEdit.render(primaryKey, offerForm));
   }
-  
+
   public static Result update(Long primaryKey) {
     Form<models.Offer> offerForm = form(models.Offer.class).bindFromRequest();
     if (offerForm.hasErrors()) {
+      System.err.println("DEBUG: " + offerForm.errors());
       return badRequest(offerEdit.render(primaryKey, offerForm));
     }
 
     offerForm.get().update(primaryKey);
-    return redirect(routes.Application.index());
+    return redirect(routes.Offer.index());
   }
 
   public static Result delete(Long primaryKey) {
     models.Offer.find().byId(primaryKey).delete();
-    return redirect(routes.Application.index());
+    return redirect(routes.Offer.index());
   }
 }

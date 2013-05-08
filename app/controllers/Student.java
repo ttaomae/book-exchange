@@ -5,7 +5,9 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.*;
+import views.html.studentCreate;
+import views.html.studentEdit;
+import views.html.studentList;
 
 public class Student extends Controller {
   public static Result index() {
@@ -21,13 +23,23 @@ public class Student extends Controller {
 
   public static Result save() {
     Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
+
     if (studentForm.hasErrors()) {
+      System.err.println("DEBUG: " + studentForm.errors());
       return badRequest(studentCreate.render(studentForm));
     }
 
     models.Student student = studentForm.get();
+    String studentId = student.getStudentId();
+
+    // if student with studentId is in database
+    if (!models.Student.find().where().eq("studentId", studentId).findList().isEmpty()) {
+      System.err.println("DEBUG: found existing student with ID: " + studentId);
+      return badRequest(studentCreate.render(studentForm));
+    }
+
     student.save();
-    return redirect(routes.Application.index());
+    return redirect(routes.Student.index());
   }
 
   public static Result edit(Long primaryKey) {
@@ -39,15 +51,16 @@ public class Student extends Controller {
   public static Result update(Long primaryKey) {
     Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
     if (studentForm.hasErrors()) {
+      System.err.println("DEBUG: " + studentForm.errors());
       return badRequest(studentEdit.render(primaryKey, studentForm));
     }
 
     studentForm.get().update(primaryKey);
-    return redirect(routes.Application.index());
+    return redirect(routes.Student.index());
   }
-  
+
   public static Result delete(Long primaryKey) {
     models.Student.find().byId(primaryKey).delete();
-    return redirect(routes.Application.index());
+    return redirect(routes.Student.index());
   }
 }

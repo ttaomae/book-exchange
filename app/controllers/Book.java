@@ -5,7 +5,9 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.*;
+import views.html.bookCreate;
+import views.html.bookEdit;
+import views.html.bookList;
 
 public class Book extends Controller {
 
@@ -23,12 +25,21 @@ public class Book extends Controller {
   public static Result save() {
     Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
     if (bookForm.hasErrors()) {
+      System.err.println("DEBUG: " + bookForm.errors());
       return badRequest(bookCreate.render(bookForm));
     }
 
     models.Book book = bookForm.get();
+    String bookId = book.getBookId();
+
+    // if book with bookId is in database
+    if (!models.Book.find().where().eq("bookId", bookId).findList().isEmpty()) {
+      System.err.println("DEBUG: found existing book with ID: " + bookId);
+      return badRequest(bookCreate.render(bookForm));
+    }
+
     book.save();
-    return redirect(routes.Application.index());
+    return redirect(routes.Book.index());
   }
 
   public static Result edit(Long primaryKey) {
@@ -40,15 +51,16 @@ public class Book extends Controller {
   public static Result update(Long primaryKey) {
     Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
     if (bookForm.hasErrors()) {
+      System.err.println("DEBUG: " + bookForm.errors());
       return badRequest(bookEdit.render(primaryKey, bookForm));
     }
 
     bookForm.get().update(primaryKey);
-    return redirect(routes.Application.index());
+    return redirect(routes.Book.index());
   }
 
   public static Result delete(Long primaryKey) {
     models.Book.find().byId(primaryKey).delete();
-    return redirect(routes.Application.index());
+    return redirect(routes.Book.index());
   }
 }
