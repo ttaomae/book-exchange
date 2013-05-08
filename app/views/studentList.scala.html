@@ -17,7 +17,7 @@
         <tbody>
           @for(student <- students) {
             <tr>
-              <td><a href="@routes.Student.edit(student.getPrimaryKey)">@student.getName()</a></td>
+              <td><a href="@routes.Student.edit(student.getPrimaryKey())">@student.getName()</a></td>
               <td>@student.getEmail()</td>
             </tr>
           }
