@@ -129,4 +129,13 @@ public class Book extends Model {
   public void setOffers(List<Offer> offers) {
     this.offers = offers;
   }
+
+  public static List<String> getTitles() {
+    List<String> bookTitles = new ArrayList<>();
+    for (Book book : Book.find().all()) {
+      bookTitles.add(book.getTitle());
+    }
+
+    return bookTitles;
+  }
 }

@@ -105,4 +105,13 @@ public class Student extends Model {
   public void setOffers(List<Offer> offers) {
     this.offers = offers;
   }
+
+  public static List<String> getNames() {
+    List<String> studentNames = new ArrayList<>();
+    for (Student student : Student.find().all()) {
+      studentNames.add(student.getName());
+    }
+
+    return studentNames;
+  }
 }
