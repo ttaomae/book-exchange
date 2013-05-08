@@ -8,7 +8,7 @@
   <h1>Edit Offer</h1>
   <div class="span6">
     <div class="well">
-      @form(routes.Offer.save(), 'class -> "form-horizontal") {
+      @form(routes.Offer.update(primaryKey), 'class -> "form-horizontal") {
         @inputText(offerForm("offerId"), '_label -> "ID")
         @select(offerForm("studentId"), options = options(models.Student.getStudentIds()), '_default -> "Choose a student", '_label -> "Student")
         @select(offerForm("bookId"), options = options(models.Book.getBookIds()), '_default -> "Choose a book", '_label -> "Book")
