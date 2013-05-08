@@ -10,6 +10,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
+            <th>Book ID</th>
             <th>ISBN</th>
             <th>Title</th>
             <th>Edition</th>
@@ -21,8 +22,9 @@
         <tbody>
           @for(book <- books) {
             <tr>
+              <td><a href="@routes.Book.edit(book.getPrimaryKey())">@book.getBookId()</a></td>
               <td>@book.getIsbn()</td>
-              <td><a href="@routes.Book.edit(book.getPrimaryKey())">@book.getTitle</a></td>
+              <td>@book.getTitle</td>
               <td>@book.getEdition</td>
               <td>@book.getPrice</td>
               <td>@if(book.getOffers().isEmpty()) {X} else {O} </td>

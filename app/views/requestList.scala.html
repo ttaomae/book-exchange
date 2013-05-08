@@ -10,6 +10,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
+            <th>Request ID</th>
             <th>Student</th>
             <th>Book</th>
             <th>Target Price</th>
@@ -18,10 +19,10 @@
         <tbody>
           @for(request <- requests) {
             <tr>
+              <td><a href="@routes.Request.edit(request.getPrimaryKey())">@request.getRequestId()</a></td>
               <td><a href="@routes.Student.edit(request.getStudent().getPrimaryKey())">@request.getStudent().getName()</a></td>
               <td><a href="@routes.Book.edit(request.getBook().getPrimaryKey())">@request.getBook().getTitle()</a></td>
               <td>@request.getTargetPrice()</td>
-              <td><a href="@routes.Request.edit(request.getPrimaryKey())">Edit</a></td>
             </tr>
           }
         </tbody>

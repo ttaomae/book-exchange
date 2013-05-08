@@ -10,6 +10,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
+            <th>Student ID</th>
             <th>Name</th>
             <th>Email</th>
           </tr>
@@ -17,7 +18,8 @@
         <tbody>
           @for(student <- students) {
             <tr>
-              <td><a href="@routes.Student.edit(student.getPrimaryKey())">@student.getName()</a></td>
+              <td><a href="@routes.Student.edit(student.getPrimaryKey())">@student.getStudentId</a></td>
+              <td>@student.getName()</td>
               <td>@student.getEmail()</td>
             </tr>
           }
