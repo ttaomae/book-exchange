@@ -19,7 +19,7 @@
         <tbody>
           @for(offer <- offers) {
             <tr>
-              <td><a href="@routes.Offer.edit(offer.getPrimaryKey())">@offer.getOfferId</a></td>
+              <td><a href="@routes.Offer.edit(offer.getPrimaryKey())">@offer.getOfferId()</a></td>
               <td><a href="@routes.Student.edit(offer.getStudent().getPrimaryKey())">@offer.getStudent().getName()</a></td>
               <td><a href="@routes.Book.edit(offer.getBook().getPrimaryKey())">@offer.getBook().getTitle()</a></td>
               <td>@offer.getTargetPrice()</td>

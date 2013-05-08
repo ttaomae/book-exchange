@@ -9,7 +9,7 @@
   <div class="span6">
     <div class="well">
       @form(routes.Offer.save(), 'class -> "form-horizontal") {
-        @inputText(offerForm("requestId"), '_label -> "ID")
+        @inputText(offerForm("offerId"), '_label -> "ID")
         @select(offerForm("studentId"), options = options(models.Student.getStudentIds()), '_default -> "Choose a student", '_label -> "Student")
         @select(offerForm("bookId"), options = options(models.Book.getBookIds()), '_default -> "Choose a book", '_label -> "Book")
         @inputText(offerForm("targetPrice"), '_label -> "Target Price")
