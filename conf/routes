@@ -32,7 +32,7 @@ POST    /books/:primaryKey              controllers.Book.update(primaryKey: Long
 GET     /books/:primaryKey/delete       controllers.Book.delete(primaryKey: Long)
 
 
-# Request operations
+# Offer operations
 # List requests
 GET     /requests                       controllers.Request.index()
 # New request
@@ -41,14 +41,22 @@ POST    /requests                       controllers.Request.save()
 # Edit existing request
 GET     /requests/:primaryKey           controllers.Request.edit(primaryKey: Long)
 POST    /requests/:primaryKey           controllers.Request.update(primaryKey: Long)
-# Delete book
+# Delete request
 GET     /requests/:primaryKey/delete    controllers.Request.delete(primaryKey: Long)
 
 
-GET     /offers                     controllers.Offer.index()
-GET     /offers/:offerId            controllers.Offer.details(offerId: String)
-POST    /offers                     controllers.Offer.newOffer()
-DELETE  /offers/:offerId            controllers.Offer.delete(offerId: String)
+# Offer operations
+# List offers
+GET     /offers                         controllers.Offer.index()
+# New offer
+GET     /offers/create                  controllers.Offer.create()
+POST    /offers                         controllers.Offer.save()
+# Edit existing offer
+GET     /offers/:primaryKey             controllers.Offer.edit(primaryKey: Long)
+POST    /offers/:primaryKey             controllers.Offer.update(primaryKey: Long)
+# Delete offer
+GET     /offers/:primaryKey/delete      controllers.Offer.delete(primaryKey: Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

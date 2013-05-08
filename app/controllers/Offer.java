@@ -5,38 +5,50 @@ import java.util.List;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.*;
 
 public class Offer extends Controller {
 
   public static Result index() {
-    List<models.Offer> offers= models.Offer.find().findList();
-    return ok(offers.isEmpty() ? "No offers" : offers.toString());
+    List<models.Offer> offers = models.Offer.find().findList();
+    return ok(offerList.render(offers));
   }
 
-  public static Result details(String offerId) {
-    models.Offer offer = models.Offer.find().where().eq("offerId", offerId).findUnique();
-    return (offer == null) ? notFound("No offer found") : ok(offer.toString());
+  public static Result create() {
+    models.Offer defaults = new models.Offer("Offer-01", 30);
+    Form<models.Offer> offerForm = form(models.Offer.class).fill(defaults);
+    return ok(offerCreate.render(offerForm));
   }
 
-  public static Result newOffer() {
-    // Create an Offer form and bind the request variables to it.
+  public static Result save() {
     Form<models.Offer> offerForm = form(models.Offer.class).bindFromRequest();
-    // Validate the form values.
     if (offerForm.hasErrors()) {
-      return badRequest("Offer ID, student, and book required");
+      return badRequest(offerCreate.render(offerForm));
     }
 
-    // form is OK, so make an Offer and save it
     models.Offer offer = offerForm.get();
     offer.save();
-    return ok(offer.toString());
+    return redirect(routes.Application.index());
   }
 
-  public static Result delete(String offerId) {
-    models.Offer offer = models.Offer.find().where().eq("offerId", offerId).findUnique();
-    if (offer != null) {
-      offer.delete();
+  public static Result edit(Long primaryKey) {
+    models.Offer offer = models.Offer.find().byId(primaryKey);
+    Form<models.Offer> offerForm = form(models.Offer.class).fill(offer);
+    return ok(offerEdit.render(primaryKey, offerForm));
+  }
+  
+  public static Result update(Long primaryKey) {
+    Form<models.Offer> offerForm = form(models.Offer.class).bindFromRequest();
+    if (offerForm.hasErrors()) {
+      return badRequest(offerEdit.render(primaryKey, offerForm));
     }
-    return ok();
+
+    offerForm.get().update(primaryKey);
+    return redirect(routes.Application.index());
+  }
+
+  public static Result delete(Long primaryKey) {
+    models.Offer.find().byId(primaryKey).delete();
+    return redirect(routes.Application.index());
   }
 }
