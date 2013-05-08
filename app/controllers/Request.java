@@ -25,7 +25,7 @@ public class Request extends Controller {
   public static Result save() {
     Form<models.Request> requestForm = form(models.Request.class).bindFromRequest();
     if (requestForm.hasErrors()) {
-      System.err.println("DEBUG: " + requestForm.errors());
+//      System.err.println("DEBUG: " + requestForm.errors());
       return badRequest(requestCreate.render(requestForm));
     }
 
@@ -34,7 +34,7 @@ public class Request extends Controller {
 
     // if offer with offerId is in database
     if (!models.Request.find().where().eq("requestId", requestId).findList().isEmpty()) {
-      System.err.println("DEBUG: found existing request with ID: " + requestId);
+//      System.err.println("DEBUG: found existing request with ID: " + requestId);
       return badRequest(requestCreate.render(requestForm));
     }
 
@@ -56,7 +56,7 @@ public class Request extends Controller {
   public static Result update(Long primaryKey) {
     Form<models.Request> requestForm = form(models.Request.class).bindFromRequest();
     if (requestForm.hasErrors()) {
-      System.err.println("DEBUG: " + requestForm.errors());
+//      System.err.println("DEBUG: " + requestForm.errors());
       return badRequest(requestEdit.render(primaryKey, requestForm));
     }
 

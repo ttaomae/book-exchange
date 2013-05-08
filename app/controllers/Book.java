@@ -25,7 +25,7 @@ public class Book extends Controller {
   public static Result save() {
     Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
     if (bookForm.hasErrors()) {
-      System.err.println("DEBUG: " + bookForm.errors());
+//      System.err.println("DEBUG: " + bookForm.errors());
       return badRequest(bookCreate.render(bookForm));
     }
 
@@ -34,7 +34,7 @@ public class Book extends Controller {
 
     // if book with bookId is in database
     if (!models.Book.find().where().eq("bookId", bookId).findList().isEmpty()) {
-      System.err.println("DEBUG: found existing book with ID: " + bookId);
+//      System.err.println("DEBUG: found existing book with ID: " + bookId);
       return badRequest(bookCreate.render(bookForm));
     }
 
@@ -56,7 +56,7 @@ public class Book extends Controller {
   public static Result update(Long primaryKey) {
     Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
     if (bookForm.hasErrors()) {
-      System.err.println("DEBUG: " + bookForm.errors());
+//      System.err.println("DEBUG: " + bookForm.errors());
       return badRequest(bookEdit.render(primaryKey, bookForm));
     }
 

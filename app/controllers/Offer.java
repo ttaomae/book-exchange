@@ -25,7 +25,7 @@ public class Offer extends Controller {
   public static Result save() {
     Form<models.Offer> offerForm = form(models.Offer.class).bindFromRequest();
     if (offerForm.hasErrors()) {
-      System.err.println("DEBUG: " + offerForm.errors());
+//      System.err.println("DEBUG: " + offerForm.errors());
       return badRequest(offerCreate.render(offerForm));
     }
 
@@ -34,7 +34,7 @@ public class Offer extends Controller {
 
     // if offer with offerId is in database
     if (!models.Offer.find().where().eq("offerId", offerId).findList().isEmpty()) {
-      System.err.println("DEBUG: found existing offer with ID: " + offerId);
+//      System.err.println("DEBUG: found existing offer with ID: " + offerId);
       return badRequest(offerCreate.render(offerForm));
     }
 
@@ -56,7 +56,7 @@ public class Offer extends Controller {
   public static Result update(Long primaryKey) {
     Form<models.Offer> offerForm = form(models.Offer.class).bindFromRequest();
     if (offerForm.hasErrors()) {
-      System.err.println("DEBUG: " + offerForm.errors());
+//      System.err.println("DEBUG: " + offerForm.errors());
       return badRequest(offerEdit.render(primaryKey, offerForm));
     }
 

@@ -25,7 +25,7 @@ public class Student extends Controller {
     Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
 
     if (studentForm.hasErrors()) {
-      System.err.println("DEBUG: " + studentForm.errors());
+//      System.err.println("DEBUG: " + studentForm.errors());
       return badRequest(studentCreate.render(studentForm));
     }
 
@@ -34,7 +34,7 @@ public class Student extends Controller {
 
     // if student with studentId is in database
     if (!models.Student.find().where().eq("studentId", studentId).findList().isEmpty()) {
-      System.err.println("DEBUG: found existing student with ID: " + studentId);
+//      System.err.println("DEBUG: found existing student with ID: " + studentId);
       return badRequest(studentCreate.render(studentForm));
     }
 
@@ -56,7 +56,7 @@ public class Student extends Controller {
   public static Result update(Long primaryKey) {
     Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
     if (studentForm.hasErrors()) {
-      System.err.println("DEBUG: " + studentForm.errors());
+//      System.err.println("DEBUG: " + studentForm.errors());
       return badRequest(studentEdit.render(primaryKey, studentForm));
     }
 
