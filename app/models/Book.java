@@ -138,4 +138,12 @@ public class Book extends Model {
 
     return bookTitles;
   }
+
+  public String validate() {
+    if (Book.find().where().eq("title", this.title).findUnique() != null) {
+      return "Found existing book with title: " + this.title;
+    }
+
+    return null;
+  }
 }

@@ -114,4 +114,12 @@ public class Student extends Model {
 
     return studentNames;
   }
+
+  public String validate() {
+    if (Student.find().where().eq("name", this.name).findUnique() != null) {
+      return "Found existing student with name: " + this.name;
+    }
+
+    return null;
+  }
 }
