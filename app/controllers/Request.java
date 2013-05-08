@@ -44,6 +44,11 @@ public class Request extends Controller {
 
   public static Result edit(Long primaryKey) {
     models.Request request = models.Request.find().byId(primaryKey);
+
+    if (request == null) {
+      return notFound("Could not find request.");
+    }
+
     Form<models.Request> requestForm = form(models.Request.class).fill(request);
     return ok(requestEdit.render(primaryKey, requestForm));
   }
@@ -60,7 +65,10 @@ public class Request extends Controller {
   }
 
   public static Result delete(Long primaryKey) {
-    models.Request.find().byId(primaryKey).delete();
+    models.Request request = models.Request.find().byId(primaryKey);
+    if (request != null) {
+      request.delete();
+    }
     return redirect(routes.Request.index());
   }
 }

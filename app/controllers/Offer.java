@@ -44,6 +44,11 @@ public class Offer extends Controller {
 
   public static Result edit(Long primaryKey) {
     models.Offer offer = models.Offer.find().byId(primaryKey);
+
+    if (offer == null) {
+      return notFound("Could not find offer.");
+    }
+
     Form<models.Offer> offerForm = form(models.Offer.class).fill(offer);
     return ok(offerEdit.render(primaryKey, offerForm));
   }
@@ -60,7 +65,10 @@ public class Offer extends Controller {
   }
 
   public static Result delete(Long primaryKey) {
-    models.Offer.find().byId(primaryKey).delete();
+    models.Offer offer = models.Offer.find().byId(primaryKey);
+    if (offer != null) {
+      offer.delete();
+    }
     return redirect(routes.Offer.index());
   }
 }

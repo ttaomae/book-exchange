@@ -43,7 +43,12 @@ public class Student extends Controller {
   }
 
   public static Result edit(Long primaryKey) {
-    models.Student student= models.Student.find().byId(primaryKey);
+    models.Student student = models.Student.find().byId(primaryKey);
+
+    if (student == null) {
+      return notFound("Could not find student.");
+    }
+
     Form<models.Student> studentForm = form(models.Student.class).fill(student);
     return ok(studentEdit.render(primaryKey, studentForm));
   }
@@ -60,7 +65,10 @@ public class Student extends Controller {
   }
 
   public static Result delete(Long primaryKey) {
-    models.Student.find().byId(primaryKey).delete();
+    models.Student student = models.Student.find().byId(primaryKey);
+    if (student != null) {
+      student.delete();
+    }
     return redirect(routes.Student.index());
   }
 }

@@ -44,6 +44,11 @@ public class Book extends Controller {
 
   public static Result edit(Long primaryKey) {
     models.Book book = models.Book.find().byId(primaryKey);
+
+    if (book == null) {
+      return notFound("Could not find book.");
+    }
+
     Form<models.Book> bookForm = form(models.Book.class).fill(book);
     return ok(bookEdit.render(primaryKey, bookForm));
   }
@@ -60,7 +65,10 @@ public class Book extends Controller {
   }
 
   public static Result delete(Long primaryKey) {
-    models.Book.find().byId(primaryKey).delete();
+    models.Book book = models.Book.find().byId(primaryKey);
+    if (book != null) {
+      book.delete();
+    }
     return redirect(routes.Book.index());
   }
 }
